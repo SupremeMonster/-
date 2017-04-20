@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.boot.mapper.TelephoneMapper">
+	<resultMap id="BaseResultMap" type="com.boot.entity.Telephone">
+	    <id column="ID" property="id" jdbcType="INTEGER"/>
+	    <result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="TELEPHONE" property="telephone" jdbcType="VARCHAR" />
+		<result column="AGE" property="age"  jdbcType="INTEGER"/>
+		<result column="WECHAT" property="wechat"  jdbcType="VARCHAR"/>
+	</resultMap>
+
+
+<select id="select"  parameterType="String"  resultType="com.boot.entity.Telephone">
+        select  *  from telephone  where name like CONCAT('%', #{name}, '%')  
+</select>
+
+<select id="selectAll"  resultType="com.boot.entity.Telephone">
+  select * from telephone 
+
+</select>
+
+<insert id="insert" parameterType="com.boot.entity.Telephone">
+   insert into telephone (name,telephone,age,wechat) values(#{name},#{telephone},#{age},#{wechat})
+</insert>
+
+<update id="update" parameterType="com.boot.entity.Telephone">
+update telephone set telephone=#{telephone} ,name=#{name},wechat=#{wechat},age=#{age} where id=#{id}
+</update>
+
+<delete id="delete" parameterType="Integer">
+delete from telephone where id=#{id}
+
+</delete>
+
+</mapper>

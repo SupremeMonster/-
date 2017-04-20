@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.boot.mapper.PlanMapper">
+	<resultMap id="BaseResultMap" type="com.boot.entity.Plan">
+		<id column="id" property="id" jdbcType="INTEGER" />
+	    <result column="PLAN" property="plan" jdbcType="VARCHAR" />
+		<result column="USER" property="user" jdbcType="VARCHAR" />
+		<result column="START" property="start" jdbcType="DATE"/>
+		<result column="END" property="end" jdbcType="DATE"/>
+		<result column="STATE" property="state" jdbcType="VARCHAR"/>
+	</resultMap>
+
+
+<select id="select"  parameterType="String"  resultType="com.boot.entity.Plan">
+        select  * from plan 
+         <where>
+            1=1
+            <if test="plan!=null and plan!=''">
+            and PLAN like CONCAT('%', #{plan}, '%')
+            </if> 
+              <if test="user!=null and user !='' ">
+              
+              and   USER like CONCAT('%',#{user},'%')
+              </if>
+             
+			
+		
+        </where> 
+</select>
+
+
+<select id="selectAll"  resultType="com.boot.entity.Plan">
+  select
+   * from plan
+
+</select>
+ 
+<insert  id="save"  parameterType="com.boot.entity.Plan">
+     insert into plan(PLAN,USER,START,END) values(#{plan},#{user},#{start},#{end})
+
+</insert>
+
+<delete id="delete"  parameterType="Integer">
+  delete from plan where id=#{id}
+</delete>
+
+<update id="update"  parameterType="com.boot.entity.Plan">
+  update plan set PLAN=#{plan} ,USER=#{user},START=#{start},END=#{end} where ID=#{id}
+
+</update>
+
+
+</mapper>

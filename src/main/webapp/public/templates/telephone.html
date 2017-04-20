@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>家庭通讯录</title>
+		<link rel="stylesheet" href="../css/telephone.css" />
+		<link rel="stylesheet" href="../css/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/paging.css">
+	<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-default/index.css">
+
+
+		
+	</head>
+<style>
+.red{
+  color:red;
+}
+</style>
+	<body >
+	
+		<div><center style="font-size:40px;font-family:'华文琥珀'">通讯录</center></div>
+		<a href="../index.html" style="text-decoration:none;margin-left:90%">
+	<img src="../img/timg.jpg"/>&nbsp;&nbsp;<span style="font-size:15px;">首页</span></a>
+		<div id="app">
+		
+				<!-- <div style="margin-bottom:10px;margin-left:35px">
+			<input type="text"  />&nbsp;&nbsp;&nbsp;
+			<button @click="select" >查询</button>
+			</div> -->
+		
+			<div class="container" >
+
+				<simple-grid :data-list="gridData" :columns="gridColumns" 
+					v-on:load-entry="loadCustomer" 
+					v-on:delete-entry="deleteCustomer">
+				</simple-grid>
+			</div>
+			<div class="container">
+				<div class="form-group">
+					<button @click="this.show = true">创建新联系人</button>
+				</div>
+			</div>
+			
+<validator name="validatorMethod">
+			<modal-dialog v-bind:show.sync="show">
+
+				<header class="dialog-header" slot="header">
+					<h1 class="dialog-title">{{ item.id ? '编辑联系人 - ' + item.name : '新建联系人' }}</h1>
+				</header>
+
+
+				<div class="dialog-body" slot="body">
+	
+					<div v-show="item.id" class="form-group">
+						<label> Id</label>
+						<input type="text" v-model="item.id" disabled="disabled" />
+					</div>
+					
+					<div class="form-group">
+						<label>联系人姓名</label>
+						<input type="text" v-model="item.name"   v-validate:name="['name']"/>
+						<center><p class="red" v-if="$validatorMethod.name.name" initial="off">由数字、26个英文字母或下划线和中文组成的字符串</p></center>
+					</div>
+					
+					<div class="form-group">
+						<label>年龄</label>
+						<input type="text" v-model="item.age"  v-validate:age="['age']" />
+						<center><p class="red" v-if="$validatorMethod.age.age" initial="off">输入合适的年龄</p></center>
+					</div>
+
+					<div class="form-group">
+						<label>联系方式</label>
+						<input type="text" v-model="item.telephone"   v-validate:telephone="['telephone']"/>
+					<center><p class="red" v-if="$validatorMethod.telephone.telephone" initial="off">输入正确的电话号码</p></center>
+					</div>
+		
+					<div class="form-group">
+						<label>微信</label>
+					<input type="text" v-model="item.wechat"  />
+					</div>
+					
+					<div class="form-group">
+						<label></label>
+						<button class="save" @click="saveCustomer" >保存</button>
+
+					</div>
+				</div>
+			</modal-dialog>
+		</div>
+</validator>
+
+		<template id="grid-template">
+		  
+			
+			<table>	
+				<thead>     
+					<tr>
+						<th v-for="col in columns">
+							{{ col.name | capitalize}}
+						</th>
+						<th >操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="(index,entry) in dataList">
+						<td v-for="col in columns" >
+							<span v-if="col.isKey"><a style="text-decoration:none" href="javascript:void(0)" @click="loadEntry(entry[col.name])">{{ entry[col.name] }}</a></span>
+							<span v-else>{{ entry[col.name] }}</span>
+						</td>
+						<td>
+					<center>		
+					<button class="btn-danger delete" @click="deleteEntry(entry)" >删除</button>
+					
+					</center>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</template>
+
+		<template id="dialog-template">
+			<div class="dialogs">	
+				<div class="dialog" v-bind:class="{ 'dialog-active': show }">
+					<div class="dialog-content">
+						<div class="close">
+							<span @click="close" style="cursor:pointer"><img src="../images/close.jpg" 
+							style="margin-top:-1px;margin-right:20px"> </span>
+						</div>
+						<slot name="header"></slot>
+						<slot name="body"></slot>
+						<slot name="footer"></slot>
+					</div>
+				</div>
+				<div class="dialog-overlay"></div>
+			</div>
+		</template>
+		
+		
+	
+	</center>
+	</div>
+	
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.js"></script>
+	<script src="//cdn.bootcss.com/vue/1.0.25-csp/vue.js"></script>
+<script src="//cdn.bootcss.com/vue-resource/0.9.3/vue-resource.js"></script>
+<script src="https://cdn.jsdelivr.net/vue.validator/2.1.6/vue-validator.min.js"></script>
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+		<script>
+			Vue.component('simple-grid', {
+				template: '#grid-template',
+				props: ['dataList', 'columns'],
+				methods: {
+					loadEntry: function(key) {
+						this.$dispatch('load-entry', key)
+					},
+					
+					deleteEntry: function(entry) {
+						if(confirm("确定要删除吗？")){
+						this.$dispatch('delete-entry', entry)
+						
+						}else{
+						return false;	
+						}
+					}
+				}
+			})
+			Vue.component('modal-dialog', {
+				template: '#dialog-template',
+				props: ['show'],
+				methods: {
+					close: function() {
+						this.show = false
+					}
+				}
+			})
+		</script>
+		
+		
+		<script>
+		
+		
+		</script>
+		
+		
+		
+		
+		
+		
+		
+		
+		<script>
+			var demo = new Vue({
+				el: '#app',
+				data: {
+					show: false,
+					title: '',
+					gridColumns: [{
+						name: 'id',
+						isKey: true
+					}, {
+						name: 'name'
+					}, {
+						name: 'telephone'
+					},{
+						name:'age'
+					},{
+						name:'wechat'
+					}],
+					gridData: [],
+					apiUrl: 'http://localhost:8080/public/telephone/user',
+					item: {}
+				},
+				ready: function() {
+					this.getCustomers()
+				},
+				
+				validators: {
+		            noempty:function(val){
+		                var reg = /^\s*$/g, isFlag = true;
+		                if(val == "" || reg.test(val)){
+		                    isFlag = false;
+		                }
+		                return  isFlag;
+		            },
+		            name: function (val) {
+		                return /^[A-Za-z0-9_\-\u4e00-\u9fa5]{1,10}$/.test(val);
+		            },
+		            telephone:function(val){
+		            	return /^1[3|4|5|8][0-9]\d{8}$/.test(val);
+		            },
+		            age:function(val){
+		            	return /^(?:[1-9][0-9]?|1[01][0-9]|120)$/.test(val);
+		            },
+		            wechat:function(val){
+		            	return /^[\u4E00-\u9FA5a-zA-Z]+/.test(val);
+		            }
+		        },	
+				
+				methods: {
+					closeDialog: function() {
+						this.show = false
+					},
+					loadCustomer: function(id) {
+						var vm = this
+						vm.gridData.forEach(function(item) {
+							if (item.id === id) {
+								vm.$set('item', item)
+								vm.$set('show', true)
+								return
+							}
+						})
+					},
+					saveCustomer: function() {
+						this.item.id ? this.updateCustomer() : this.createCustomer()
+								var self = this;
+		                /**
+		                 * 验证目标表单元素。
+		                 * true:验证所有
+		                 */
+		                self.$validate(true,function () {
+		                    /*如果所有条件都是false*/
+		                    if(!self.$validatorMethod.invalid){
+		                 
+		                        alert("保存成功!");
+		                    }else{
+		                    	alert("保存失败!");
+		                    	return false;
+		                    }
+		                })
+						this.show = false
+					},
+					getCustomers: function() {
+						var resource = this.$resource(this.apiUrl)
+							vm = this
+						resource.get()
+							.then((response) => {
+								vm.$set('gridData', response.data)
+							})
+							.catch(function(response) {
+								console.log(response)
+							})
+					},
+					createCustomer: function() {
+						var resource = this.$resource(this.apiUrl)
+							vm = this
+						
+						resource.save(vm.apiUrl, vm.item)
+							.then((response) => {
+								vm.$set('item', {})
+								vm.getCustomers()
+							})
+						this.show = false
+					},
+					updateCustomer: function() {
+						var resource = this.$resource(this.apiUrl)
+							vm = this
+							
+						resource.update({ id: vm.item.id}, vm.item)
+							.then((response) => {
+								vm.getCustomers()
+							})
+					},
+					deleteCustomer: function(customer){
+						var resource = this.$resource(this.apiUrl+'/'+customer.id)
+							vm = this
+						resource.remove({ id: customer.id})
+							.then((response) => {
+								vm.getCustomers()
+							})
+					},
+					
+				   select:function(){ 
+					   var resource = this.$resource(this.apiUrl+'/')
+						vm = this
+					resource.get({})
+						.then((response) => {
+							vm.$set('gridData', response.data)
+						})
+						.catch(function(response) {
+							console.log(response)
+						})
+				   }
+					
+					
+					
+				}
+			})
+			demo.$watch('show', function(newVal, oldVal) {
+				if (!newVal) {
+					this.item = {}
+				}
+			})
+		</script>
+	</body>
+
+</html>

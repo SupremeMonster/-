@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+        <script src="../javascripts/public.js"></script>	
+<title>十三岁那年</title>
+</head>
+<body style="background:rgb(200,200,169)">
+       
+   <header>
+        <nav class="navbar" role="navigation">
+            <div class="container-fluid">
+                <h1 class="text-center">2008年的回忆</h1>
+            </div>
+        </nav>
+    </header>
+    <div id="app">
+        <div class="container" style="margin-bottom: 20px;">
+            <input autofocus v-model="newMsg" class="form-control" placeholder="写下你想说的话..." @keyup.enter="addMsg">
+            <br>
+            <center><button @click="addMsg" class="btn btn-primary btn-block send" style="width:100px">发送</button></center>
+        </div>
+        <div class="container">
+            <div class="panel panel-default">
+                <div class="panel-heading">留言列表</div>
+                <div class="panel-body">
+                    <ul class="list-group">
+                        <li class="list-group-item" v-for="msg in msgs" style="margin-top:5px">{{ msg.title }}
+                        
+                        <span class=" pull-right" id="time">{{msg.date}}</span>
+                     
+                        </li>
+                    </ul>
+                    <center><button @click="removeMsgs" v-show="msgs.length > 0" class="btn btn-danger btn-block" style="width:100px">清空留言</button></center>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    	<script src="//cdn.bootcss.com/vue/1.0.25-csp/vue.js"></script>
+<script src="//cdn.bootcss.com/vue-resource/0.9.3/vue-resource.js"></script>
+
+<script>
+        var STORAGE_KEY = 'vue-liuyanban2008'
+        var msgStorage = {
+            fetch: function() {
+                var msgs = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
+                msgs.forEach(function(msg, index) {
+                    msg.id = index
+                })
+                msgStorage.uid = msgs.length
+                return msgs
+            },
+            save: function(msgs) {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(msgs))
+            }
+        }
+        var app = new Vue({
+            el: '#app',
+            data: {
+                msgs: msgStorage.fetch(),
+                newMsg: ''
+            },
+            watch: {
+                msgs: {
+                    handler: function(msgs) {
+                        msgStorage.save(msgs)
+                    },
+                    deep: true
+                }
+            },
+            methods: {
+                addMsg: function() {
+                    var value = this.newMsg && this.newMsg.trim()
+                    if (!value) {
+                        return
+                    }
+                    this.msgs.unshift({
+                    	date:new Date().toLocaleString(),
+                        id: msgStorage.uid++,
+                        title: value
+                    })
+                    this.newMsg = ''
+                },
+                removeMsgs: function() {
+                    msgStorage.uid = 0;
+                    return this.msgs = [];
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

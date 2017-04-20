@@ -1,0 +1,6 @@
+启动应用步骤
+先启动mongodb数据库
+mongod.exe和mongo.exe
+application.java就是一个启动入口
+然后启动node 命令：node app.js
+打开localhost:8080/public/index.html即可

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+	 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="//cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.css" rel="stylesheet">
+   	<link rel="stylesheet"  type="text/css" href="../css/style.css">
+   	   	<link rel="stylesheet"  type="text/css" href="../css/timeaxis.css">
+<title>时间轴</title>
+<style>
+p{
+color:#fff;
+font-size:15px;
+text-shadow: 0 0 10px #529DFF;
+}
+</style>
+
+</head>
+<body>
+
+<div class="wrap about_page" id="wrap">
+  <div class="wrapper">
+    <div class="header">
+      <div class="head">
+	  
+          <div class="nav_box">
+            <ul class="nav_list" id="nav_list">
+		 <li><a href="javascript:void(0);" onclick="play()" id="playbtn" class="btn_sound"></a></li>
+		
+		 <li><a href="../index.html">主页</a></li>
+            </ul>
+            <span class="ic_line" id="h_line"></span>
+          </div>
+      </div>
+    </div>
+
+    <div class="events_sec" id="events_sec">
+      <div class="content">
+        <h3 class="hide_txt png">sc.chinaz.com</h3>
+        <div class="events_list" style="margin-top:-200px">
+          <span class="ic_time png"></span>
+          <ul>
+            <li class="right_li">
+              <span class="ic_events png"></span>
+              <p id="axis_one" class="txt_events"><strong><a href="1995.html" style="text-decoration:none;color:white">1995
+              <img src="../images/yiner.jpg"  id="axis_oneImg" style="display:none"/>
+              </strong></a></p>
+            </li>
+            <li class="left_li">
+              <span class="ic_events"><i class="png"></i></span>
+              <p id="axis_two" class="txt_events"><strong><a href="2003.html" style="text-decoration:none;color:white">
+              <img src="../images/tongnian.jpg"  id="axis_twoImg" style="display:none"/>
+             2003
+              
+              </strong></a></p>
+            </li>
+            <li class="right_li">
+              <span class="ic_events png"></span>
+              <p id="axis_three" class="txt_events"><strong><a href="2008.html" style="text-decoration:none;color:white">2008
+                <img src="../images/shisui.jpg"  id="axis_threeImg" style="display:none"/>
+              </strong></a></strong></p>
+          
+            </li>
+            <li class="left_li">
+              <span class="ic_events"><i class="png"></i></span>
+              <p id="axis_four" class="txt_events"><strong><a href="2013.html" style="text-decoration:none;color:white">
+                  <img src="../images/shiba.jpg"  id="axis_fourImg" style="display:none"/>
+              2013 
+              </strong></a></p>
+            
+            </li>
+            <li class="right_li">
+              <span class="ic_events png"></span>
+              <p class="txt_events" id="axis_five"><strong><a href="2017.html" style="text-decoration:none;color:white">2017
+                   <img src="../images/ershisui.jpg"  id="axis_fiveImg" style="display:none"/>
+              </strong></a></p>
+            </li>
+       
+            <li class="left_li">
+              <span class="ic_events"><i class="png"></i></span>
+              <p class="txt_events" id="future"><strong><a href="future.html" style="text-decoration:none;color:white">
+                   <img src="../images/future.jpg"  id="axis_futureImg" style="display:none"/>
+              Our Future
+         
+              </strong></a></p>
+            </li>
+            
+          </ul>
+          <span class="ic_arr png"></span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="wage_sec" id="wage_sec"  style="margin-top:0px">
+      <div class="content">
+     
+		<center>
+		<p style="letter-spacing:2px; font-size:40px;padding-top:10px" >时间轴</p>
+		<p style="padding-top:10px;font-size:16px">作者：&nbsp;&nbsp;Supreme_Monster</p>
+		<br><br><br>
+		<p style="font-size:18px">GitHub首页:https://github.com/SupremeMonster</p>
+		</center>
+		<br><br><br>
+      </div>
+    </div>
+    </div>
+  </div>
+
+
+<iframe frameborder="no" border="0"  style="display:none"
+marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=28411782&auto=1&height=66"></iframe>
+
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.js"></script>
+<script type="text/javascript" src="../javascripts/index.js"></script>
+<script src="../javascripts/canvas-nest.min.js"></script>
+<script >
+  $(document).ready(function(){
+	 $('#axis_one').hover(function(){
+	     $('#axis_oneImg').show();
+	    
+	 },function(){
+		 $('#axis_oneImg').hide();
+	 })
+	 
+	  $('#axis_two').hover(function(){
+	     $('#axis_twoImg').show();
+	 },function(){
+		 $('#axis_twoImg').hide();
+	 })
+	 
+	  $('#axis_three').hover(function(){
+	     $('#axis_threeImg').show();
+	 },function(){
+		 $('#axis_threeImg').hide();
+	 })
+	 
+	  $('#axis_four').hover(function(){
+	     $('#axis_fourImg').show();
+	 },function(){
+		 $('#axis_fourImg').hide();
+	 })
+	 
+	  $('#axis_five').hover(function(){
+	     $('#axis_fiveImg').show();
+	 },function(){
+		 $('#axis_fiveImg').hide();
+	 })
+	 
+	  $('#future').hover(function(){
+	     $('#axis_futureImg').show();
+	 },function(){
+		 $('#axis_futureImg').hide();
+	 })
+  })
+
+</script>
+</body>
+</html>
